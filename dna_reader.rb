@@ -7,9 +7,12 @@ class DnaReader
     'C' => [ 0,  1]
   }
 
+  attr_reader :count, :buffer
+  
   def initialize(file_path, opts={})
     @buffer_size = opts[:buffer_size] || 4
     @file = File.open(file_path, 'r')
+    @count = 1
 
     # Fill the buffer first
     @buffer = []
@@ -21,6 +24,7 @@ class DnaReader
   def step
     c = next_char!
     @buffer.tap(&:shift).push(c)
+    @count += 1
   end
 
   def to_s
@@ -40,6 +44,7 @@ class DnaReader
   def finished?
     @file.eof?
   end
+
 
   private
 
