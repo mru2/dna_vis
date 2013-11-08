@@ -49,6 +49,7 @@ class DnaReader
   private
 
   def next_char!
+    return if @file.eof?
     c = @file.readchar
     %w(A T G C).include?(c) ? c : next_char!
   end

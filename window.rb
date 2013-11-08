@@ -1,14 +1,17 @@
 require './dna_reader.rb'
 
 class Dot < Struct.new(:x, :y)
-  COLOR = Gosu::Color.new(32, 234, 234, 255)
+  # COLOR = Gosu::Color.new(32, 234, 234, 255)
   def draw(image)
-    image.draw_quad(x-1, y-1, COLOR, x-1, y+1, COLOR, x+1, y+1, COLOR, x+1, y-1, COLOR, 0, :additive)
+    image.dot.draw(x,y,0)
+    # image.draw_quad(x-1, y-1, COLOR, x-1, y+1, COLOR, x+1, y+1, COLOR, x+1, y-1, COLOR, 0, :additive)
   end
 end
 
 class Window < Gosu::Window
   ZOOM = 1
+
+  attr_reader :dot
 
   def initialize
     super 1024, 768, false
@@ -19,8 +22,8 @@ class Window < Gosu::Window
     @cx, @cy = 512, 384
     @r, @thetha = 1, 0
 
-    @reader = DnaReader.new('./dna.txt', :buffer_size => 3)
-    @image = Gosu::Image.new(self, './dot.png', true)
+    @reader = DnaReader.new('./dna.txt', :buffer_size => 4)
+    @dot = Gosu::Image.new(self, './dot.png', true)
     @dots = []
   end
   
@@ -46,7 +49,7 @@ class Window < Gosu::Window
   end
   
   def draw
-    puts "position: #{@r}, #{@thetha}"
+    # puts "position: #{@r}, #{@thetha}"
     add_dot
     draw_dots
   end
